@@ -14,9 +14,16 @@ public class Player : MonoBehaviour
 
     private List<Saveable> _saveables;
     private List<Vector3> _trail;
+    public int NumSaved;
 
     private const int FramesDelayPerSaveable = 20;
     
+    public GameObject JetPack;
+    private GameObject _myJetpack;
+    private bool _flying;
+    public ParticleSystem LandedParticles;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +38,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_myJetpack)
+        {
+            GetComponent<Rigidbody2D>().simulated = true;
+            transform.position = _myJetpack.transform.position + Vector3.up * 0.6f;
+        }
+        else if(!GetComponent<Collider2D>().enabled)
+        {
+            var velocity = GetComponent<Rigidbody2D>().velocity;
+            velocity.x = 0;
+            GetComponent<Rigidbody2D>().velocity = velocity;
+            GetComponent<Collider2D>().enabled = true;
+        }
+        
         UpdateTrail();
 
         UpdateSaveables();
@@ -42,16 +62,34 @@ public class Player : MonoBehaviour
 
     private void UpdateSaveables()
     {
+        if (Input.GetKeyDown(KeyCode.Space) && _saveables.Count > 0)
+        {
+            var saved = _saveables[0];
+            saved.Save();
+            NumSaved++;
+            _saveables.Remove(saved);
+        } 
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _myJetpack = Instantiate(JetPack, transform.position, Quaternion.identity);
+            GetComponent<Rigidbody2D>().simulated = false;
+            GetComponent<Collider2D>().enabled = false;
+            foreach (var savable in _saveables)
+            {
+                savable.LeaveBehind();
+            }
+            _saveables = new List<Saveable>();
+        }
         for (int i = 0; i < _saveables.Count; i++)
         {
             var trailIndex = _trail.Count - (int)((i + 0.5f) * FramesDelayPerSaveable) - 1;
             if(trailIndex >= 0)
             {
-                _saveables[i].transform.position = _trail[trailIndex];
+                _saveables[i].SetGroundPosition(_trail[trailIndex]);
             }
             else
             {
-                _saveables[i].transform.position = _trail[0];
+                _saveables[i].SetGroundPosition(_trail[0]);
             }
         }
     }
@@ -61,7 +99,7 @@ public class Player : MonoBehaviour
         if (_startedJumping && _animator.GetCurrentAnimatorStateInfo(0).IsName("rising"))
         {
             _startedJumping = false;
-            _rigidbody2D.AddForce(new Vector2(0, 400));
+            _rigidbody2D.AddForce(new Vector2(0, 500));
             airbound = true;
         }
 
@@ -87,7 +125,7 @@ public class Player : MonoBehaviour
 
     private void UpdateTrail()
     {
-        _trail.Add(transform.position);
+        _trail.Add(transform.Find("ground").position);
         if (_trail.Count > FramesDelayPerSaveable * (_saveables.Count + 1))
         {
             _trail.RemoveAt(0);
@@ -103,6 +141,8 @@ public class Player : MonoBehaviour
         if (other.contacts.Any(contact => contact.normal.y > 0.8))
         {
             _animator.SetTrigger("landed");
+            Instantiate(LandedParticles, other.contacts[0].point, Quaternion.identity);
+            Instantiate(LandedParticles, other.contacts[0].point, Quaternion.Euler(0, 0, -125));
             airbound = false;
             _startedJumping = false;
         }
