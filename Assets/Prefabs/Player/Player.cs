@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.HasComponent<Saveable>())
+        if (other.gameObject.HasComponent<Saveable>() || other.gameObject.HasComponent<JetpackPickup>())
         {
             return;
         }
@@ -197,7 +197,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D other)
     {
-        if (other.gameObject.HasComponent<Saveable>())
+        if (other.gameObject.HasComponent<Saveable>() || other.gameObject.HasComponent<JetpackPickup>())
         {
             return;
         }
@@ -206,7 +206,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.HasComponent<Saveable>())
+        if (other.gameObject.HasComponent<Saveable>() || other.gameObject.HasComponent<JetpackPickup>())
         {
             return;
         }

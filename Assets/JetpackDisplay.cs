@@ -6,34 +6,32 @@ using UnityEngine.UI;
 
 public class JetpackDisplay : MonoBehaviour
 {
-    public float _totalTime = 1;
-    private float _timeWaiting;
-
-    public Image Overlay;
-
-    public TextMeshProUGUI ContolsText;
+    private int _numJetpacks;
     
     // Update is called once per frame
     void Update()
     {
-        _timeWaiting += Time.deltaTime;
-        
-        Overlay.fillAmount = Progress();
-        ContolsText.gameObject.SetActive(Ready());
+        foreach (var child in transform.GetComponentsInChildren<RectTransform>(true))
+        {
+            if (child.gameObject != gameObject)
+            {
+                child.gameObject.SetActive(Ready());
+            }
+        }
     }
 
-    private float Progress()
+    public void Pickup()
     {
-        return _timeWaiting / _totalTime;
+        _numJetpacks++;
     }
 
     public bool Ready()
     {
-        return Progress() > 1;
+        return _numJetpacks > 0;
     }
     
     public void Use()
     {
-        _timeWaiting = 0;
+        _numJetpacks--;
     }
 }

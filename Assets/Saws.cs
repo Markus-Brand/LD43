@@ -16,6 +16,8 @@ public class Saws : MonoBehaviour
     void Update()
     {
         _timeLiving += Time.deltaTime;
-        transform.Translate(Vector3.up * (float) Math.Sqrt(_timeLiving) * Time.deltaTime * 0.5f);
+        var speed = (float) Math.Sqrt(_timeLiving) * 0.5f;
+        speed = Mathf.Min(speed, 199.5f - transform.position.y);
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 }

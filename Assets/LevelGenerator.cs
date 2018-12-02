@@ -6,6 +6,7 @@ public class LevelGenerator : MonoBehaviour
 {
 
     public Saveable Saveable;
+    public JetpackPickup JetpackPickup;
     
     public GameObject platform;
     public GameObject longPlatform;
@@ -26,8 +27,17 @@ public class LevelGenerator : MonoBehaviour
             }
             else
             {
-                var saveable = Instantiate(Saveable);
-                saveable.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
+                float random = Random.value;
+
+                if (random < 0.2)
+                {
+                    var saveable = Instantiate(Saveable);
+                    saveable.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
+                } else if (random < 0.4)
+                {
+                    var jetpackPickup = Instantiate(JetpackPickup);
+                    jetpackPickup.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
+                }
             }
         }
 

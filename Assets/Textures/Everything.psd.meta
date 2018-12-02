@@ -22,6 +22,7 @@ TextureImporter:
     21300034: timer_status
     21300036: Everything_0
     21300038: long_platform
+    21300040: jetpack_4
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -499,6 +500,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 4762262ca30862f48983ac3d1b9857f5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: jetpack_4
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 177
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a7a760b445d9324ea206747c89ec57f
       vertices: []
       indices: 
       edges: []
