@@ -23,6 +23,7 @@ TextureImporter:
     21300036: Everything_0
     21300038: long_platform
     21300040: jetpack_4
+    21300042: controls
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -513,13 +514,33 @@ TextureImporter:
         width: 9
         height: 9
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
       spriteID: 1a7a760b445d9324ea206747c89ec57f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: controls
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 154
+        width: 23
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5289d277d1851514086abaa99c32f373
       vertices: []
       indices: 
       edges: []
