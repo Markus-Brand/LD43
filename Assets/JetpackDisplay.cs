@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class JetpackDisplay : MonoBehaviour
 {
     private int _numJetpacks;
+    public TextMeshProUGUI JetpackText;
     
     // Update is called once per frame
     void Update()
@@ -18,6 +19,8 @@ public class JetpackDisplay : MonoBehaviour
                 child.gameObject.SetActive(Ready());
             }
         }
+
+        JetpackText.text = "Jetpack x" + _numJetpacks;
     }
 
     public void Pickup()

@@ -129,7 +129,7 @@ public class Player : MonoBehaviour
         if (_startedJumping && _animator.GetCurrentAnimatorStateInfo(0).IsName("rising"))
         {
             _startedJumping = false;
-            _rigidbody2D.AddForce(new Vector2(0, 500));
+            _rigidbody2D.AddForce(new Vector2(0, 500 + (_saveables.Count > 0 ? 100 : 0)));
             airbound = true;
         }
 

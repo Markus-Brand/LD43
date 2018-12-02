@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class LevelGenerator : MonoBehaviour
     public JetpackPickup JetpackPickup;
     
     public GameObject platform;
+    public MovingPlatform MovingPlatform;
     public GameObject longPlatform;
 
     public Player Player;
@@ -19,21 +22,35 @@ public class LevelGenerator : MonoBehaviour
     {
         for (int i = 0; i < height; i++)
         {
-            var newPlatform = Instantiate(platform, transform);
-            newPlatform.transform.localPosition = new Vector3(Random.Range(-3.0f, 3.0f), i * 2f, 0);
+            float random = Random.value;
+
+            GameObject newPlatform;
+            if (random < 0.2 && i != 0)
+            {
+                random = 1000;
+                var movingPlatform = Instantiate(MovingPlatform, transform);
+                float random1 = Random.Range(-3.0f, -1.0f);
+                movingPlatform.MinX = random1;
+                movingPlatform.MinX = -random1;
+                movingPlatform.transform.localPosition = new Vector3(random1, i * 2f, 0);
+                newPlatform = movingPlatform.gameObject;
+            }
+            else
+            {
+                newPlatform = Instantiate(platform, transform);
+                newPlatform.transform.localPosition = new Vector3(Random.Range(-3.0f, 3.0f), i * 2f, 0);
+            }
             if (i == 0)
             {
                 Player.transform.position = newPlatform.transform.position + Vector3.up * 1f;
             }
             else
             {
-                float random = Random.value;
-
-                if (random < 0.2)
+                if (random < 0.375)
                 {
                     var saveable = Instantiate(Saveable);
                     saveable.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
-                } else if (random < 0.4)
+                } else if (random < 0.575)
                 {
                     var jetpackPickup = Instantiate(JetpackPickup);
                     jetpackPickup.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
