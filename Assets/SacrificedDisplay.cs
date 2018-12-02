@@ -19,6 +19,6 @@ public class SacrificedDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _text.text = "Sacrificed: " + 0;
+        _text.text = "Sacrificed: " + GameObject.FindWithTag("Player").GetComponent<Player>().NumKilled;
     }
 }

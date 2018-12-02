@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private bool _startedJumping;
 
     private List<Saveable> _saveables;
+    private List<Saveable> _AllSaveables;
     private List<Vector3> _trail;
     public int NumSaved;
 
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
     private bool _flying;
     public ParticleSystem LandedParticles;
 
+    public JetpackDisplay JetpackDisplay;
+    public int NumKilled { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,9 @@ public class Player : MonoBehaviour
         _trail = new List<Vector3>();
         _trail.Add(transform.position);
         _saveables = new List<Saveable>();
+        _AllSaveables = new List<Saveable>();
+        
+        JetpackDisplay = GameObject.FindWithTag("JetpackDisplay").GetComponent<JetpackDisplay>();
     }
 
     // Update is called once per frame
@@ -76,23 +82,28 @@ public class Player : MonoBehaviour
 
     private void UpdateSaveables()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _saveables.Count > 0)
+        if (JetpackDisplay.Ready())
         {
-            var saved = _saveables[0];
-            saved.Save();
-            NumSaved++;
-            _saveables.Remove(saved);
-        } 
-        else if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            _myJetpack = Instantiate(JetPack, transform.position, Quaternion.identity);
-            GetComponent<Rigidbody2D>().simulated = false;
-            GetComponent<Collider2D>().enabled = false;
-            foreach (var savable in _saveables)
+            if (Input.GetKeyDown(KeyCode.Space) && _saveables.Count > 0)
             {
-                savable.LeaveBehind();
+                var saved = _saveables[0];
+                saved.Save();
+                NumSaved++;
+                _saveables.Remove(saved);
+                JetpackDisplay.Use();
+            } 
+            else if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                _myJetpack = Instantiate(JetPack, transform.position, Quaternion.identity);
+                GetComponent<Rigidbody2D>().simulated = false;
+                GetComponent<Collider2D>().enabled = false;
+                foreach (var savable in _saveables)
+                {
+                    savable.LeaveBehind();
+                }
+                _saveables = new List<Saveable>();
+                JetpackDisplay.Use();
             }
-            _saveables = new List<Saveable>();
         }
         for (int i = 0; i < _saveables.Count; i++)
         {
@@ -159,6 +170,23 @@ public class Player : MonoBehaviour
         }
         if (other.contacts.Any(contact => contact.normal.y > 0.8))
         {
+            if (other.gameObject.CompareTag("End"))
+            {
+                foreach (var saveable in _saveables)
+                {
+                    NumSaved++;
+                }
+
+                foreach (var notSaved in _AllSaveables)
+                {
+                    if (notSaved != null)
+                    {
+                        NumKilled++;
+                    }
+                }
+                GameObject.FindWithTag("StateManager").GetComponent<StateManager>().OnEscape();
+            }
+            
             _animator.SetTrigger("landed");
             Instantiate(LandedParticles, other.contacts[0].point, Quaternion.identity);
             Instantiate(LandedParticles, other.contacts[0].point, Quaternion.Euler(0, 0, -125));
@@ -182,7 +210,7 @@ public class Player : MonoBehaviour
         {
             return;
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameObject.FindWithTag("StateManager").GetComponent<StateManager>().OnDeath();
     }
 
     private bool WantsToJump()
@@ -204,13 +232,26 @@ public class Player : MonoBehaviour
         return movement;
     }
 
+    public void RegisterSaveable(Saveable saveable)
+    {
+        _AllSaveables.Add(saveable);
+    }
+
+    public void UnRegisterSaveable(Saveable saveable)
+    {
+        _AllSaveables.Remove(saveable);
+    }
+
+
     public void AddSaveable(Saveable saveable)
     {
         _saveables.Add(saveable);
+        _AllSaveables.Remove(saveable);
     }
 
     public void RemoveSaveable(Saveable saveable)
     {
         _saveables.Remove(saveable);
+        _AllSaveables.Add(saveable);
     }
 }

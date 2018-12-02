@@ -8,6 +8,7 @@ public class LevelGenerator : MonoBehaviour
     public Saveable Saveable;
     
     public GameObject platform;
+    public GameObject longPlatform;
 
     public Player Player;
 
@@ -29,5 +30,8 @@ public class LevelGenerator : MonoBehaviour
                 saveable.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
             }
         }
+
+        var endPlatform = Instantiate(longPlatform, transform);
+        endPlatform.transform.localPosition = new Vector3(0, height * 2f, 0);
     }
 }

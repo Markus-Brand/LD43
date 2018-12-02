@@ -18,6 +18,7 @@ public class Saveable : MonoBehaviour
     private void Start()
     {
         _button = GameObject.FindWithTag("RescueButton").GetComponent<RescueButton>();
+        GameObject.FindWithTag("Player").GetComponent<Player>().RegisterSaveable(this);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -60,6 +61,8 @@ public class Saveable : MonoBehaviour
                 Instantiate(SpecificEffect, saveablePosition, Quaternion.identity);
             }
             
+            GameObject.FindWithTag("Player").GetComponent<Player>().NumKilled++;
+            GameObject.FindWithTag("Player").GetComponent<Player>().UnRegisterSaveable(this);
             Destroy(gameObject);
         }
     }

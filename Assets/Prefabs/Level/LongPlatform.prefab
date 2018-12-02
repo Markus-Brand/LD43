@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &852921222595461203
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 135631937902608483, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_Name
+      value: LongPlatform
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608479, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608479, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608478, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300038, guid: 6517461675c8a8949a25c55acc7693fb,
+        type: 3}
+    - target: {fileID: 135631937902608481, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 14.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608481, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.4375
+      objectReference: {fileID: 0}
+    - target: {fileID: 1948914189401696546, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300038, guid: 6517461675c8a8949a25c55acc7693fb,
+        type: 3}
+    - target: {fileID: 135631937902608481, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_UsedByEffector
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608481, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 14.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608481, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.4375
+      objectReference: {fileID: 0}
+    - target: {fileID: 135631937902608483, guid: 87d991b5346070a418e09bd1bcc4229c,
+        type: 3}
+      propertyPath: m_TagString
+      value: End
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 87d991b5346070a418e09bd1bcc4229c, type: 3}
