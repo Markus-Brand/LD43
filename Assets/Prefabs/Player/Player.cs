@@ -50,6 +50,20 @@ public class Player : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = velocity;
             GetComponent<Collider2D>().enabled = true;
         }
+
+        if (transform.position.x < -10)
+        {
+            var rigidbody2DVelocity = _rigidbody2D.velocity;
+            rigidbody2DVelocity.x = 1;
+            _rigidbody2D.velocity = rigidbody2DVelocity;
+        }
+
+        if (transform.position.x > 10)
+        {
+            var rigidbody2DVelocity = _rigidbody2D.velocity;
+            rigidbody2DVelocity.x = -1;
+            _rigidbody2D.velocity = rigidbody2DVelocity;
+        }
         
         UpdateTrail();
 
@@ -82,6 +96,11 @@ public class Player : MonoBehaviour
         }
         for (int i = 0; i < _saveables.Count; i++)
         {
+            if (i == 0)
+            {
+                _saveables[i].transform.position = transform.position + Vector3.up * 0.45f;
+                continue;
+            }
             var trailIndex = _trail.Count - (int)((i + 0.5f) * FramesDelayPerSaveable) - 1;
             if(trailIndex >= 0)
             {

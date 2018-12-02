@@ -9,6 +9,8 @@ public class LevelGenerator : MonoBehaviour
     
     public GameObject platform;
 
+    public Player Player;
+
     public int height = 100;
     // Start is called before the first frame update
     void Start()
@@ -17,8 +19,15 @@ public class LevelGenerator : MonoBehaviour
         {
             var newPlatform = Instantiate(platform, transform);
             newPlatform.transform.localPosition = new Vector3(Random.Range(-3.0f, 3.0f), i * 2f, 0);
-            var saveable = Instantiate(Saveable);
-            saveable.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
+            if (i == 0)
+            {
+                Player.transform.position = newPlatform.transform.position + Vector3.up * 1f;
+            }
+            else
+            {
+                var saveable = Instantiate(Saveable);
+                saveable.transform.position = newPlatform.transform.position + Vector3.up * 0.4f;
+            }
         }
     }
 }

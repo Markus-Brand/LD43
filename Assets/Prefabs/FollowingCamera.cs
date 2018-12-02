@@ -8,7 +8,7 @@ public class FollowingCamera : MonoBehaviour
     public GameObject Followed;
     
     
-    private Vector2 cameraPosition; //current position, without shake applied
+    private float cameraPosition; //current y position, without shake applied
     private float timeShaking = 99999;
     private float shakeIntensity = 0;
     private float shakeDuration = 1;
@@ -17,14 +17,14 @@ public class FollowingCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cameraPosition = transform.position;
+        cameraPosition = transform.position.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 direction = (Vector2)Followed.transform.position - cameraPosition;
-        cameraPosition += direction * direction.magnitude * Time.deltaTime;
+        float direction = Followed.transform.position.y - cameraPosition;
+        cameraPosition += direction * Math.Abs(direction) * Time.deltaTime;
         
         
         timeShaking += Time.deltaTime;
@@ -47,7 +47,7 @@ public class FollowingCamera : MonoBehaviour
         }
 
 
-        Vector2 actualPosition = cameraPosition + random;
+        Vector2 actualPosition = Vector2.up * cameraPosition + random;
         transform.position = new Vector3(actualPosition.x, actualPosition.y, -10);
     }
     

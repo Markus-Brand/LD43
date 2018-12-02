@@ -13,6 +13,13 @@ public class Saveable : MonoBehaviour
 
     public GameObject JetPack;
 
+    private RescueButton _button;
+
+    private void Start()
+    {
+        _button = GameObject.FindWithTag("RescueButton").GetComponent<RescueButton>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(_saved) return;
@@ -21,9 +28,12 @@ public class Saveable : MonoBehaviour
             _player = newPlayer;
             if (!following)
             {
-                _player.AddSaveable(this);
-                GetComponent<Rigidbody2D>().simulated = false;
-                following = true;
+                _button.DoneHandler[gameObject] = () =>
+                {
+                    _player.AddSaveable(this);
+                    GetComponent<Rigidbody2D>().simulated = false;
+                    following = true;
+                };
             }
         }
         else
@@ -39,11 +49,10 @@ public class Saveable : MonoBehaviour
             
             if (effectPosition.transform.position.y > saveablePosition.y)
             {
-                var instantiate = Instantiate(BloodEffect, effectPosition);
-                instantiate.transform.localPosition = Vector3.zero;
-                instantiate.Pause();
-                instantiate.Play();
-                Instantiate(SpecificEffect, effectPosition).transform.localPosition = Vector3.zero;
+                var blood = Instantiate(BloodEffect, effectPosition);
+                blood.transform.localPosition = Vector3.zero;
+                var specific = Instantiate(SpecificEffect, effectPosition);
+                specific.transform.localPosition = Vector3.zero;
             }
             else
             {
@@ -52,6 +61,14 @@ public class Saveable : MonoBehaviour
             }
             
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.HasComponent(out Player newPlayer))
+        {
+            _button.DoneHandler.Remove(gameObject);
         }
     }
 
