@@ -60,6 +60,7 @@ public class Saveable : MonoBehaviour
             
             GameObject.FindWithTag("Player").GetComponent<Player>().NumKilled++;
             GameObject.FindWithTag("Player").GetComponent<Player>().UnRegisterSaveable(this);
+            Camera.main.GetComponent<FollowingCamera>().MakeUndirectedShake(0.7f, 0.6f);
             Destroy(gameObject);
         }
     }

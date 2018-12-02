@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().simulated = true;
             transform.position = _myJetpack.transform.position + Vector3.up * 0.6f;
+            Camera.main.GetComponent<FollowingCamera>().MakeUndirectedShake(0.1f, 0.1f);
         }
         else if(!GetComponent<Collider2D>().enabled)
         {
